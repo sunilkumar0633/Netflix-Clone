@@ -1,7 +1,7 @@
 import { CustomGenre } from "src/types/Genre";
 
 export const API_ENDPOINT_URL = import.meta.env.VITE_APP_API_ENDPOINT_URL;
-export const TMDB_V3_API_KEY = "647f91193510922347e7200c56bd3c83"; //import.meta.env.VITE_APP_TMDB_V3_API_KEY;
+export const TMDB_V3_API_KEY = import.meta.env.VITE_APP_TMDB_V3_API_KEY;
 
 export const MAIN_PATH = {
   root: "",
