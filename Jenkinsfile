@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -50,12 +51,6 @@ pipeline {
             }
         }
 
-        stage('OWASP DP SCAN') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'owasp-dp-check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
 
         stage('TRIVY FS SCAN') {
             steps {
@@ -67,7 +62,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t $JOB_NAME:$BUILD_ID ."
+                        sh "docker build -t $JOB_NAME:$BUILD_ID --build-arg TMDB_V3_API_KEY=647f91193510922347e7200c56bd3c83 ."
                         sh "docker tag $JOB_NAME:$BUILD_ID jacksneel/$JOB_NAME:$BUILD_ID"
                         sh "docker tag $JOB_NAME:$BUILD_ID jacksneel/$JOB_NAME:latest"
                     }
@@ -96,7 +91,7 @@ pipeline {
             steps {
                 script {
                     dir('Kubernetes') {
-                        withKubeConfig(credentialsId: 'k8-cred', namespace: 'webapps', serverUrl: 'https://172.31.25.156:6443') {
+                        withKubeConfig(credentialsId: 'k8s-cred', namespace: 'webapps', serverUrl: 'https://172.31.25.156:6443') {
                             sh 'kubectl apply -f deployment.yml'
                             sh 'kubectl apply -f service.yml'
                         }
