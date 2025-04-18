@@ -96,7 +96,7 @@ pipeline {
             steps {
                 script {
                     dir('Kubernetes') {
-                        withKubeConfig(credentialsId: 'k8-cred', namespace: 'webapps', serverUrl: 'https://172.31.18.172:6443') {
+                        withKubeConfig(credentialsId: 'k8-cred', namespace: 'webapps', serverUrl: 'https://172.31.25.156:6443') {
                             sh 'kubectl apply -f deployment.yml'
                             sh 'kubectl apply -f service.yml'
                         }
