@@ -20,9 +20,6 @@ spec:
         image: jacksneel/netflix:latest
         ports:
         - containerPort: 80
-        env:
-        - name: TMDB_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: tmdb-api-secret
-              key: TMDB_V3_API_KEY
+        envFrom:
+        - configMapRef:
+            name: tmdb-config
