@@ -52,7 +52,7 @@ pipeline {
 
         stage('TRIVY FS SCAN') {
             steps {
-                sh 'trivy fs . > trivyfs.txt'
+               sh "trivy fs --format table -o trivy-fs-report.html ."
             }
         }
 
@@ -81,7 +81,7 @@ pipeline {
 
         stage("TRIVY Image Scan") {
             steps {
-                sh "trivy image jacksneel/$JOB_NAME:latest > trivyimage.txt"
+                sh "trivy image --format table -o trivy-image-report.html jacksneel/$JOB_NAME:latest "
             }
         }
 
