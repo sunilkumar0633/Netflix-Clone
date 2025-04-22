@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -51,7 +50,6 @@ pipeline {
             }
         }
 
-
         stage('TRIVY FS SCAN') {
             steps {
                 sh 'trivy fs . > trivyfs.txt'
@@ -98,6 +96,20 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    // Post-build Email Notification
+    post {
+        always {
+            emailext(
+                subject: "Jenkins Build #${BUILD_NUMBER} - ${JOB_NAME}",
+                body: """<p>Build Status: ${currentBuild.currentResult}</p>
+                         <p>Check the build details: <a href="${BUILD_URL}">${BUILD_URL}</a></p>""",
+                to: 'sunielmahla@gmail.com',
+                replyTo: 'sunielmahla@gmail.com',
+                mimeType: 'text/html'
+            )
         }
     }
 }
