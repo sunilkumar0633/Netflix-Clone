@@ -20,6 +20,3 @@ spec:
         image: jacksneel/netflix:latest
         ports:
         - containerPort: 80
-        envFrom:
-        - configMapRef:
-            name: tmdb-config
